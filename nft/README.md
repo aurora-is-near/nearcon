@@ -1,15 +1,27 @@
-# Basic Sample Hardhat Project
+# Aurora Nearcon NFT
+This contract requires seeding it with some `passphrases` after deployment by calling `assignHashToTokenId()`. Only admin can call this function.
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+These passphrases will be generated separately and distributed during workshop or in the booth directly.
 
-Try running some of the following tasks:
+A user can redeem the NFT token with a valid passphrase only once.
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+### Compile
+
+```bash
+npm run compile
+```
+
+### Test
+
+```bash
+npm run test
+# for coverage
+npm run coverage
+```
+
+### Deploy
+```bash
+export INFURA_TOKEN='YOUR INFURA TOKEN'
+export PRIVATE_KEY='YOUR ETHEREUM PRIVATE KEY'
+npm run deploy:aurora
 ```
