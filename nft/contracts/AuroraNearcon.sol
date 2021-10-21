@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AuroraNearcon is ERC721, Ownable {
-
     mapping(uint256 => bytes32) public tokenIdToHash;
     mapping(bytes32 => uint256) public hashToTokenId;
 
@@ -37,5 +36,15 @@ contract AuroraNearcon is ERC721, Ownable {
         );
         tokenIdToHash[tokenId] = hash;
         hashToTokenId[hash] = tokenId;
+    }
+
+    /// ERC721 Metadata
+
+    function name() external view returns (string memory) {
+        return "AZUL (Aurora@Nearcon)";
+    }
+
+    function symbol() external view returns (string memory) {
+        return "AZUL";
     }
 }
