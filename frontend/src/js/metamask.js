@@ -40,6 +40,9 @@ export async function connectMetaMask () {
   })
   window.provider = new ethers.providers.Web3Provider(provider, 'any')
 
+  // Prevent MetaMask Mobile refresh on network change.
+  window.ethereum.autoRefreshOnNetworkChange = false
+
   console.log('Connect to Aurora network')
   await connectAurora()
 }
