@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract AuroraNearcon is ERC721, Ownable {
 
     mapping(uint256 => bytes32) public tokenIdToHash;
+    mapping(bytes32 => uint256) public hashToTokenId;
 
     constructor(
         string memory name,
@@ -15,15 +16,15 @@ contract AuroraNearcon is ERC721, Ownable {
 
     function mint(
         address to,
-        uint256 tokenId,
-        bytes memory _data,
+        bytes memory data,
         bytes memory preImage
     ) external {
+        uint256 tokenId = hashToTokenId[keccak256(preImage)];
         require(
             keccak256(preImage) == tokenIdToHash[tokenId],
             'ERR: invalid passphrase'
         );
-        _safeMint(to, tokenId, _data);
+        _safeMint(to, tokenId, data);
     }
 
     function assignHashToTokenId(
@@ -35,5 +36,6 @@ contract AuroraNearcon is ERC721, Ownable {
             'ERR: Duplicate token Id'
         );
         tokenIdToHash[tokenId] = hash;
+        hashToTokenId[hash] = tokenId;
     }
 }

@@ -1,17 +1,16 @@
 
-const { expect } = require('chai');
+const { expect, assert } = require('chai');
 const { ethers } = require('hardhat');
 
 describe('AuroraNearcon', function () {
   let instance,
     deployer,
-    participant1,
-    participant2,
+    participant,
     hash,
     passphrase,
     tokenId;
   beforeEach(async function () {
-    [deployer, participant1, participant2] = await ethers.getSigners();
+    [deployer, participant] = await ethers.getSigners();
     const AuroraNearcon = await ethers.getContractFactory('AuroraNearcon');
     instance = await AuroraNearcon
       .connect(deployer)
@@ -29,16 +28,25 @@ describe('AuroraNearcon', function () {
     );
   });
 
-  it('only owner can seed', async () => {
+  it('should owner seed passphrases', async () => {
     expect(hash).to.equal(await instance.tokenIdToHash(tokenId));
   })
-  it('participant can mint with correct passphrase', async () => {
-    await instance.connect(participant1)
+  it('should mint with correct passphrase', async () => {
+    await instance.connect(participant)
     .mint(
-        participant1.address, 
-        tokenId, 
+        participant.address, 
         Buffer.from('Lisbon Tiles edition # 1'), 
         Buffer.from(passphrase)
     );
+  })
+  it('should fail to mint with incorrect passphrase', async () => {
+    const invalidPassphrase = 'INVALID PASS';
+    await expect(
+        instance.connect(participant)
+        .mint(
+            participant.address, 
+            Buffer.from('Lisbon Tiles edition # 1'), 
+            Buffer.from(invalidPassphrase)
+    )).to.be.revertedWith('ERR: invalid passphrase');
   })
 });
