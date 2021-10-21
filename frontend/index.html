@@ -1,1 +1,68 @@
-This is Aurora at nearcon
+<h1 id="hello">Welcome to NEARCON.</h1>
+<button id="submit" , onclick="submit()">Mint</button>
+<script>
+    auroraChainId = "0x4e454152";
+    // TODO: User proper contracts
+    auroraNFTContract = "0xd46e8dd67c5d32be8058bb8eb970870f07244567";
+
+    function setState(txt) {
+        document.getElementById("hello").innerHTML = txt;
+    }
+
+    function parsePassphrase() {
+        tokens = window.location.href.split("=");
+        return tokens[tokens.length - 1];
+    }
+
+    window.addEventListener("load", async () => {
+        if (typeof window.ethereum !== "undefined") {
+            await window.ethereum.enable();
+
+            if (window.ethereum.chainId != auroraChainId) {
+                setState("Invalid chain id. Switch to Aurora network");
+            } else {
+                setState(
+                    `Logged in as <strong>${window.ethereum.selectedAddress}.</strong>`
+                );
+            }
+            console.log(window.ethereum.chainId);
+        } else {
+            console.log("MetaMask is not installed!");
+            setState("Metamask not loaded");
+        }
+    });
+
+    window.ethereum.on("chainChanged", (chainId) => {
+        window.location.reload();
+    });
+
+    async function submit() {
+        passphrase = parsePassphrase();
+        console.log({ passphrase });
+
+        params = [
+            {
+                from: window.ethereum.selectedAddress,
+                to: auroraNFTContract,
+                gas: "0x76c0",
+                gasPrice: "0x0",
+                value: "0x0",
+                // TODO: User proper data
+                data: "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",
+            },
+        ];
+
+        window.ethereum
+            .request({
+                method: "eth_sendTransaction",
+                params,
+            })
+            .then((result) => {
+                setState(`Successfully minted NFT.`);
+            })
+            .catch((error) => {
+                console.log("Noooo");
+                setState(`Failed to mint NFT.`);
+            });
+    }
+</script>
