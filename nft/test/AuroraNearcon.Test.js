@@ -31,6 +31,14 @@ describe('AuroraNearcon', function () {
   it('should owner seed passphrases', async () => {
     expect(hash).to.equal(await instance.tokenIdToHash(tokenId));
   })
+  it('should not participant seed passphrases', async () => {
+    await expect(
+        instance.connect(participant).assignHashToTokenId(
+            tokenId,
+            hash
+        )
+    ).to.be.revertedWith('Ownable: caller is not the owner');
+  })
   it('should mint with correct passphrase', async () => {
     await instance.connect(participant)
     .mint(
