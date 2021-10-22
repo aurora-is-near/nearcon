@@ -11,7 +11,7 @@ passphraseInput.onkeyup = () => {
 
 onClick('connectMetaMask', connectMetaMask)
 
-find('submitPassphraseForm').onsubmit = async function mintNft (e) {
+find('submitPassphraseForm').onsubmit = async function mintNft(e) {
   e.preventDefault()
 
   submitButton.disabled = true
@@ -48,4 +48,26 @@ find('submitPassphraseForm').onsubmit = async function mintNft (e) {
   } finally {
     submitButton.disabled = false
   }
+}
+
+function parsePassphrase () {
+  const parts = window.location.href.split('?')
+
+  let passphrase = ''
+
+  if (parts.length === 2) {
+    const tokens = parts[1].split('&')
+
+    tokens.forEach((token) => {
+      const kv = token.split('=')
+      if (kv.length === 2 && kv[0] === 'pass') {
+        passphrase = kv[1]
+      }
+    })
+  }
+  return passphrase
+}
+
+window.onload = async () => {
+  passphraseInput.value = parsePassphrase()
 }
