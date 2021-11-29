@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import * as AzulCompiled from '../artifacts/contracts/AzulNFT.sol/AzulNFT.json'
 import { AzulNFT } from '../typechain-types'
 
-const address = () => '0xcf44B3bF0923BA93754b883a42043B9C0291cbc7'
+const address = () => '0xDfC8eDa2f3d66112413D45D7263Cb2D304D3038b'
 
 const NAMES = ['Aurora', 'Rainbow Bridge', 'Lisboa']
 const IMAGE_NAMES = ['aurora.jpeg', 'rainbow-bridge.jpeg', 'lisboa.jpeg']
