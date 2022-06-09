@@ -1,0 +1,10 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+    name: azul-nft-nearcon-public
+    description: Public Azul NFT repository
+spec:
+    targets:
+        - ./ethereum/.catalog-info.yaml
+        - ./frontend/.catalog-info.yaml
